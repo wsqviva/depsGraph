@@ -1,10 +1,49 @@
 'use strict';
 
+function inArray(item, arr) {
+  return arr.indexOf(item) > -1;
+}
+
+/*
+ *  TODO
+ */
+function createDFS(edges) {
+  var currentPath = [];
+  var visited = {};
+  var result = [];
+
+  return function DFS(name) {
+    visited[name] = true;
+    currentPath.push(name);
+
+    if (!inArray(name, result)) {
+      result.push(name);
+    }
+
+    edges[name].forEach(function(edgeName) {
+      // node not visited
+      if (!visited[edgeName]) {
+        DFS(edgeName);
+        return;
+      }
+
+      if (inArray(edgeName, currentPath)) {
+        currentPath.push(edgeName);
+        console.log('Dependency Cycle Found: ' + currentPath.join(' -> '));
+      }
+    });
+
+    currentPath.pop();
+
+    return result;
+  };
+}
+
+
 function DepsGraph() {
   this.nodes = {};
   this.outgoingEdges  = {};
   this.incomingEdges = {};
-  this.circleEdges = [];
 };
 
 DepsGraph.prototype = {
@@ -63,9 +102,12 @@ DepsGraph.prototype = {
   dependenciesOf: function(id) {
     if (this.hasNode(id)) {
       var DFS = createDFS(this.outgoingEdges);
-      var result = DFS(id);
+      return DFS(id);
     } else {
       throw new Error('Node does not exist' + id);
     }
   }
 };
+
+
+module.exports = DepsGraph;

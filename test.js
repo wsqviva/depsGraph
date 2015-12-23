@@ -1,3 +1,4 @@
+'use strict';
 
 // 分析一个模块的依赖，之前的
 // function analyzeOne(m) {
@@ -29,31 +30,10 @@
 //   return depsList;
 // }
 
-var all = {
-  a: {
-    id: 'a',
-    dependences: ['b']
-  },
 
-  b: {
-    id: 'b',
-    dependences: ['c']
-  },
-
-  c: {
-    id: 'c',
-    dependences: ['a', 'd']
-  },
-
-  d: {
-    id: 'd',
-    dependences: []
-  }
-};
-
-// 模块的打包，首先包内有循环依赖也应该提示
-// 模块的依赖图
 // 分析文件 匹配require ?
+var DepGraph = require('./depsGraph');
+
 var graph = new DepGraph();
 
 var nodes = [
