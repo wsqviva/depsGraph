@@ -5,7 +5,7 @@ function inArray(item, arr) {
 }
 
 /*
- *  TODO
+ *  TODO: 依赖路径不好看, pop为什么没有pop完？
  */
 function createDFS(edges) {
   var currentPath = [];
@@ -90,7 +90,6 @@ DepsGraph.prototype = {
     if (!this.hasNode(to)) {
       throw new Error('Node does not exist: ' + to);
     }
-    ;
     if (!inArray(to, this.outgoingEdges[from])) {
       this.outgoingEdges[from].push(to);
     }
